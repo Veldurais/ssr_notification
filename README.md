@@ -23,8 +23,8 @@ This example project includes a Spring Boot backend that sends real-time notific
 ### 1. Clone the Repository
 
 ```sh
-git clone https://github.com/your-username/spring-boot-sse-system-notifications.git
-cd spring-boot-sse-system-notifications
+git clone [https://github.com/Veldurais/ssr_notification.git]
+cd ssr_notification
 ```
 
 ### 2. Build and Run the Spring Boot Application
