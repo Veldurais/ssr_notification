@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SSE System Notifications Example</title>
+</head>
+<body>
+    <h1>Server-Sent Events with System Notifications</h1>
+    <div id="notifications"></div>
+
+    <script>
+        // Check if the browser supports notifications
+        if ('Notification' in window) {
+            // Request permission to display notifications
+            Notification.requestPermission().then(permission => {
+                if (permission !== 'granted') {
+                    alert('Permission to display notifications was denied');
+                }
+            });
+        } else {
+            alert('This browser does not support desktop notifications');
+        }
+
+        const eventSource = new EventSource("http://localhost:8080/notifications");
+
+        eventSource.onmessage = function(event) {
+            // Log the received message for debugging
+            console.log("Received push notification: " + event.data);
+
+            // Display the system notification
+            if (Notification.permission === 'granted') {
+                new Notification('New Notification', {
+                    body: event.data,
+                });
+            }
+
+            // Optional: Display the message in the HTML
+            const notificationDiv = document.getElementById("notifications");
+            notificationDiv.innerHTML += `<p>${event.data}</p>`;
+        };
+
+        eventSource.onerror = function(error) {
+            console.error("SSE error: " + error);
+        };
+
+        // Optionally close the connection
+        // eventSource.close();
+    </script>
+</body>
+</html>
